@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "../listoffriends/button";
 
-export const SplitBill = ({ selectedFriend }) => {
+export const SplitBill = ({ selectedFriend, onsplitbill }) => {
   const [bill, setBill] = useState("");
 
   const [userbill, setUserbill] = useState("");
@@ -10,8 +10,16 @@ export const SplitBill = ({ selectedFriend }) => {
 
   const [whoispaying, setwhoispaying] = useState("user");
 
+  function handlesubmit(e) {
+    // handler function to handle split bill submit event
+    e.preventDefault();
+
+    if (!bill || !userbill) return;
+    onsplitbill(whoispaying === "user" ? friendbill : -userbill);
+  }
+
   return (
-    <form className="form-split-bill">
+    <form className="form-split-bill" onSubmit={handlesubmit}>
       <h2>Split a bill with {selectedFriend.name}</h2>
       <label>Bill Value</label>
       <input
